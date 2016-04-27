@@ -12,12 +12,12 @@ filename: The filename of the graph input file.
 
 The first line of this file begins with a hash ‘#’ followed by the
 number of nodes and edges in the following format:
-#n=34,m=78
+\#n=34,m=78
 Each following line is tab-delimited and contains the two end-points of each edge:
-1 0
-2 0
-...
-33 32
+#1 0
+#2 0
+#...
+#33 32
 In general, if there are m edges in the graph, there should be exactly m + 1 lines in the file. All
 graphs are undirected and edges are repeated only once (e.g. in the above example, there will not
 be a second line with ‘0 1’ since this is the same as the first line for undirected graphs).
