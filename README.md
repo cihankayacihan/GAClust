@@ -17,10 +17,10 @@ number of nodes and edges in the following format:
 
 Each following line is tab-delimited and contains the two end-points of each edge:
 
-1 0\n
-2 0\n
-...\n
-33 32\n
+1 0 <br />
+2 0 <br />
+... <br />
+33 32 <br />
 
 In general, if there are m edges in the graph, there should be exactly m + 1 lines in the file. All
 graphs are undirected and edges are repeated only once (e.g. in the above example, there will not
