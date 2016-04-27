@@ -43,4 +43,4 @@ mutation rate: the rate of mutation for each element in the individual vectors. 
 
 USAGE
 
-Usage: python setup.py -i <filename> [-N <MaxNumClass>] [-n <MaxNumIteration>] [-a <PopulationSize>] [-b <ElitismParameter>] [-g <MutationRate>]
+Usage: python setup.py -i \<filename\> \[-N \<MaxNumClass\>\] \[-n \<MaxNumIteration\>\] [-a <PopulationSize>] [-b <ElitismParameter>] [-g <MutationRate>]
