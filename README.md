@@ -18,11 +18,8 @@ number of nodes and edges in the following format:
 Each following line is tab-delimited and contains the two end-points of each edge:
 
 1 0
-
 2 0
-
 ...
-
 33 32
 
 In general, if there are m edges in the graph, there should be exactly m + 1 lines in the file. All
