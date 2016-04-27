@@ -17,13 +17,10 @@ number of nodes and edges in the following format:
 
 Each following line is tab-delimited and contains the two end-points of each edge:
 
-1 0
-
-2 0
-
-...
-
-33 32
+1 0\n
+2 0\n
+...\n
+33 32\n
 
 In general, if there are m edges in the graph, there should be exactly m + 1 lines in the file. All
 graphs are undirected and edges are repeated only once (e.g. in the above example, there will not
@@ -44,6 +41,6 @@ This parameter is optional. Default value is 0.25.
 
 mutation rate: the rate of mutation for each element in the individual vectors. This parameter is optional. Default value is 0.1
 
-USAGE
+#USAGE
 
 Usage: python setup.py -i \<filename\> \[-N \<MaxNumClass\>\] \[-n \<MaxNumIteration\>\] \[-a \<PopulationSize\>\] \[-b \<ElitismParameter\>\] \[-g \<MutationRate\>\]
