@@ -87,9 +87,8 @@ def GAClust(graph,degrees,nodes,edges,adj,N,N_iter,alpha,beta,gamma):
 			changes = np.random.randint(nodes, size=np.random.randint(nodes))
 			Xc = Xa.copy()
 			Xd = Xb.copy()
-			for l in range(len(changes)):
-				Xc[changes[l]]=Xb[changes[l]]
-				Xd[changes[l]]=Xa[changes[l]]
+			Xc[changes]=Xb[changes]
+			Xd[changes]=Xa[changes]
 			pop2[k]=Xc
 			pop2[k+1]=Xd
 			k=k+2
