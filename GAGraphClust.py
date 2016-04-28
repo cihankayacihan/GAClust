@@ -10,6 +10,8 @@ import numpy as np
 import argparse
 
 def calcAdj(graph, nodes):
+	''' This function calculates the adjacency matrix of a given graph 
+	'''
 	adj = np.zeros((nodes, nodes))
 	for i in range(len(graph)):
 		adj[graph[i][0],graph[i][1]]=1.
@@ -18,6 +20,7 @@ def calcAdj(graph, nodes):
 	return adj
 
 def calcDegrees(graph, nodes):
+	''' This function calculates the degree of each node on the graph '''
 	degrees=np.zeros(nodes,dtype=np.int)
 	for i in range(nodes):
 		degrees[i]=list(np.ravel(graph)).count(i)
@@ -25,6 +28,7 @@ def calcDegrees(graph, nodes):
 	
 
 def objective(graph, adj, cluster, degrees, nodes, edges):
+	''' Objective function of the system which is modularity value from Girvan et. al, 2002, PNAS '''
 	objective=0.
 	for i in range(nodes-1):
 		for j in range(i+1,nodes):
@@ -32,22 +36,30 @@ def objective(graph, adj, cluster, degrees, nodes, edges):
 	return objective
 
 def GAClust(graph,degrees,nodes,edges,adj,N,N_iter,alpha,beta,gamma):
+	''' This function calculates the optimal clustering to maximize the modularity of the given graph with genetic algorithm. '''
 
-	N = int(N)
-	N_iter = int(N_iter)
-	alpha = int(alpha)
-	beta = float(beta)
-	gamma = float(gamma)
-	# Initialization
+	N = int(N) # maximum number of clusters
+	N_iter = int(N_iter) # number of maximum iterations
+	alpha = int(alpha) # Population size
+	beta = float(beta) # Elitism/Selection parameter
+	gamma = float(gamma) # mutation rate
+
+	# Initialization of clusters
 	cluster = np.random.randint(N, size=(alpha,nodes))
+	# Initialization of objective functions
 	objectives = np.zeros(alpha)
+	# Number of elite individuals
 	ne = int(alpha * beta)
+	# Number of crossovers
 	nc = (alpha - ne)/2
+	# Two separate populations are created. Elite and Nonelite
 	pop1 = np.zeros((ne,nodes),dtype=np.int)
 	pop2 = np.zeros((alpha-ne,nodes),dtype=np.int)
+	# initial best objective function
 	best_obj = 0
+	# initial best solution
 	best_sol = np.zeros(nodes, dtype=np.int)
-	m=0
+	m=0 # iteration termination value 
 	sys.stdout.write("Running ")
 	sys.stdout.write("[%s]" % (" " * N_iter))
 	sys.stdout.flush()
@@ -60,16 +72,18 @@ def GAClust(graph,degrees,nodes,edges,adj,N,N_iter,alpha,beta,gamma):
 	for i in range(N_iter):
 		# based on fitness function, selection of elite class
 		with np.errstate(invalid='ignore'):
+			# normalization of rates
 			rates = (objectives-min(objectives))/(np.sum(objectives-min(objectives)))
-			nums = np.random.choice(alpha,ne,p=rates)
-		pop1=cluster[nums]
+			# selection of top ne of population
+			index_elite = np.random.choice(alpha,ne,p=rates)
+		pop1=cluster[index_elite]
 		# based on fitness function of elite class, cross over operations
-		rate_nums = rates[nums]/sum(rates[nums])
-		k=0
+		rate_elite = rates[index_elite]/sum(rates[index_elite])
+		k=0 
 		for j in range(int(nc)):
 			with np.errstate(invalid='ignore'):
-				Xa = cluster[np.random.choice(nums,p=rate_nums)]
-				Xb = cluster[np.random.choice(nums,p=rate_nums)]
+				Xa = cluster[np.random.choice(index_elite,p=rate_elite)]
+				Xb = cluster[np.random.choice(index_elite,p=rate_elite)]
 			changes = np.random.randint(nodes, size=np.random.randint(nodes))
 			Xc = Xa.copy()
 			Xd = Xb.copy()
@@ -85,6 +99,7 @@ def GAClust(graph,degrees,nodes,edges,adj,N,N_iter,alpha,beta,gamma):
 			new = np.zeros(nodes, dtype=np.int)
 			for k in range(nodes):
 				new[k]=(pop2[indice,k]+np.random.randint(int(N))*(np.random.rand()<gamma))%N
+		# concatanate elite population with newly created population
 		cluster = np.concatenate((pop1,pop2),axis=0)
 		# new fitness function calculation
 		for j in range(cluster.shape[0]):
